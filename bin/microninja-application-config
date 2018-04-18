@@ -1,0 +1,77 @@
+#!/usr/bin/python
+
+# Copyright (C) 2016 Alfabook srl
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+
+# Usage:
+# ./microninja-application-config --set=snake,key,value <--- save the value
+# ./microninja-application-config --get=snake,key <--- retrieve the value
+
+import getopt
+import sys
+import os
+from ConfigParser import SafeConfigParser
+
+def save_var(globalVar, appname, key, value):        
+        config = SafeConfigParser()
+        if not globalVar:
+            user = os.environ['LOGNAME']
+            config.read('/home/' + user + '/.microninja-app-config')
+        else:
+            config.read('/etc/microninja-config')
+	if config.has_section(appname) == False:
+		config.add_section(appname)
+	config.set(appname, key, value)
+        if not globalVar:
+	    with open('/home/' + user + '/.microninja-app-config', 'w') as f:
+                config.write(f)
+        else:
+            with open('/etc/microninja-config', 'w') as f:
+                config.write(f)
+        
+def get_var(globalVar, appname, key, ):
+        config = SafeConfigParser()
+        if not globalVar:
+	    user = os.environ['LOGNAME']	
+	    config.read('/home/' + user + '/.microninja-app-config')
+        else:
+            config.read('/etc/microninja-config')
+	if config.has_section(appname) == False:
+		return "VARIABLE_NOT_FOUND"
+	if config.has_option(appname, key) == False:
+		return "VARIABLE_NOT_FOUND"
+	return config.get(appname, key)
+		
+def main():
+    # parse command line options
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "g:s:w", ["get=", "set=", "global"])
+    except getopt.error, msg:
+        print msg        
+        sys.exit(2)
+    # process options 
+    globalSetting = False 
+    for o, a in opts:
+        if o in ("-w", "--global"):
+            globalSetting = True
+        if o in ("-g", "--get"):
+            getString = a;
+            inputList = getString.split(',')
+            print get_var(globalSetting, inputList[0], inputList[1])
+        elif o in ("-s", "--set"):
+            setString = a;
+            inputList = setString.split(',')
+            appname = inputList[0];
+            key = inputList[1];
+            value = inputList[2];
+            save_var(globalSetting, appname, key, value)
+			
+if __name__ == "__main__":
+	main()
+
+
+
+
+			
+            
+    

@@ -1,0 +1,14 @@
+Source: microninja-toolset
+Maintainer: Microninja Team <info@scuolabook.it>
+Section: admin
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9), libraspberrypi-dev, libpng12-dev
+
+Package: microninja-toolset
+Architecture: all
+Depends: ${misc:Depends}, python-gtk2, python-webkit,
+         fping, python, zenity, bc, ifplugd, python-yaml, python-pyinotify,
+         resolvconf, libpng12-0, libraspberrypi-bin, procps, x11-utils, dbus
+Description: Collection of tools for Microninja
+ Contains mostly generic tools that are used at many places in Microninja OS.

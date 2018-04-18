@@ -1,0 +1,44 @@
+# Italian translations for PACKAGE package.
+# Copyright (C) 2017 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Marco Lorrai <microninja@microninja.me>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-07 12:07+0100\n"
+"PO-Revision-Date: 2017-12-07 12:09+0100\n"
+"Last-Translator: Marco Lorrai <microninja@microninja.me>\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: microninja-shutdown:32
+#, sh-format
+msgid "Quit"
+msgstr "Esci"
+
+#: microninja-shutdown:32
+#, sh-format
+msgid "Do you want to halt or reboot the system?"
+msgstr "Spegnere il sistema o effettuare un riavvio?"
+
+#: microninja-shutdown:32
+#, sh-format
+msgid "Halt"
+msgstr "Spegni"
+
+#: microninja-shutdown:32
+#, sh-format
+msgid "Reboot"
+msgstr "Riavvia"
+
+#: microninja-shutdown:32
+#, sh-format
+msgid "Cancel"
+msgstr "Annulla"

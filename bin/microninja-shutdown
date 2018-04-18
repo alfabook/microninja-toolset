@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# kano-shutdown
+#
+# Copyright (C) 2014 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+#
+# Script to shutdown the system after a confirmation message
+# The user executing this code needs sudo NOPASSWD: privileges for /sbin/poweroff.
+#
+# Copyright (C) 2016 Alfabook srl
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+# rebadged with microninja
+# tracker removed
+# sync removed
+
+# run the updater to install urgent or prompt for updating now
+# sudo microninja-updater ui shutdown-window
+
+# Report shutdown event to Kano Tracker
+# kano-tracker-ctl +1 shutdown
+
+#send tracking data
+# kano-sync --backup -s &
+#lxsession-logout -p "Termina la sessione corrente?" -b /usr/share/microninja-desktop/images/microninja-logout-face.png -s top
+
+. gettext.sh
+export TEXTDOMAIN="microninja-toolset"
+export TEXTDOMAINDIR=/usr/share/locale/microninja/microninja-toolset
+
+#VAR=$(microninja-dialog title="Esci" description="Spegnere il sistema o effettuare un logout?" buttons=Spegni:orange:0,Logout:orange:1,Riavvia:orange:2,Annulla:green:3 background=/usr/share/microninja-desktop/images/microninja-logout-face.png)
+VAR=$(microninja-dialog title="`eval_gettext "Quit"`" description="`eval_gettext "Do you want to halt or reboot the system?"`" buttons="`eval_gettext "Halt"`":orange:0,"`eval_gettext "Reboot"`":orange:1,"`eval_gettext "Cancel"`":green:2 background=/usr/share/microninja-desktop/images/microninja-logout-face.png)
+if [ "$VAR" = "0" ]; then
+	sudo shutdown -h now
+fi
+#if [ "$VAR" = "1" ]; then
+#        sudo killall kdesk_guard
+#        sudo killall kdesk
+#        sudo killall kdesk-hourglass-app
+#	killall lxsession
+#fi
+if [ "$VAR" = "1" ]; then
+	sudo shutdown -r now
+fi

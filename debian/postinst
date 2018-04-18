@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# postinst
+#
+# Copyright (C) 2014 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+#
+# Copyright (C) 2016 Alfabook srl
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+# Some file rebadged with microninja
+
+TMP_FILE=/tmp/microninja-toolset_conf
+
+case "$1" in
+    configure)
+
+        # Create custom sudoers file
+        echo 'Defaults env_keep += "KLOG_FORCE_FLUSH NO_AT_BRIDGE"' > $TMP_FILE
+        echo "%sudo   ALL=(root) NOPASSWD: /usr/bin/microninja-launcher" >> $TMP_FILE
+        echo "%sudo   ALL=(root) NOPASSWD: /usr/bin/is_internet" >> $TMP_FILE
+        echo "%sudo   ALL=(root) NOPASSWD: /usr/sbin/ifplugstatus" >> $TMP_FILE
+
+        # The owner and group for the sudoers file must both be 0
+        chown root:root $TMP_FILE
+        # The file permissions must be set to 0440
+        chmod 0440 $TMP_FILE
+        # Move the file to the sudoers directory
+        mv $TMP_FILE /etc/sudoers.d/
+
+        # Configure microninja.logging
+        if [ ! -f /etc/microninja-logs.conf ]; then
+            cat >/etc/microninja-logs.conf <<EOF
+log_level: error
+output_level: none
+EOF
+        fi
+
+	# microninja-launcher is setuid root to allow use of CLONE_NEWUTS
+	chmod u+s /usr/bin/microninja-launcher
+
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

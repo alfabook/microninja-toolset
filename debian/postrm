@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# postrm
+#
+# Copyright (C) 2014 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+#
+# Copyright (C) 2016 Alfabook srl
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+# Some file rebadged with microninja
+
+case "$1" in
+    remove|upgrade)
+        # Remove config file
+        rm /etc/sudoers.d/microninja-toolset_conf
+
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

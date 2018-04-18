@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# kano-signal
+#
+# Copyright (C) 2014 Kano Computing Ltd.
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+#
+# Sends a signal to a Kano app (save, load, share, make)
+#
+# This script is invoked by the Kano Keyboard hotkeys (xbindkeys in Kano Desktop).
+# If you call it from a shell or command line, make sure you export DISPLAY
+# to point to your desktop.
+#
+
+# Copyright (C) 2016 Alfabook srl
+# License: http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+# rebadged with microninja
+
+# pipe name to send javascript code
+pipe_name=/tmp/webapp.pipe
+app=""
+
+signal=$1
+
+
+# syntax sanity check
+case $signal in
+    save)
+        jscmd="Signal.save()"
+        ;;
+    load)
+        jscmd="Signal.load()"
+        ;;
+    share)
+        jscmd="Signal.share()"
+        ;;
+    make)
+        jscmd="Signal.make()"
+        ;;
+    *)
+        echo "Usage: microninja-signal < save | load | share | make >"
+        exit 1
+        ;;
+esac
+
+
+function is_running {
+    xwininfo -tree -root | grep -i $1 > /dev/null 2>&1
+}
+
+#only sonicpi is registered in dbus
+for APP in pong minecraft music; do
+    is_running $APP
+    if [ $? == 0 ]; then
+        app=$APP
+
+        if [ $app == "music" ]; then
+            # Make Music is registered as "sonicpi" in dbus
+            app="sonicpi"
+        fi
+
+        break
+    fi
+done
+
+if [ -z $app ]; then
+    # No valid app is running
+    exit 1
+fi
+
+
+if [ "$2" == "debug" ]; then
+    echo "Dispatching signal: $signal"
+fi
+
+
+# if there is no pipe, webkit is not running
+if [ -p $pipe_name ]; then
+    # webkit is running
+    echo $jscmd > $pipe_name
+else
+    # Pass on event to dbus
+    dbus-send --session --dest="me.microninja.$app" --print-reply \
+              "/me/microninja/$app" "me.microninja.$app.Actions.$signal" 2>/dev/null
+fi
+
+exit $?

@@ -1,0 +1,31 @@
+bin usr/
+microninja usr/lib/python2.7/dist-packages/
+media /usr/share/microninja/
+
+js usr/share/microninja-toolset/
+
+icons/* usr/share/icons/microninja/66x66/apps/
+
+uinput/uinput usr/bin/
+uinput/pyinputevent.py usr/lib/python2.7/dist-packages/
+uinput/scancodes.py usr/lib/python2.7/dist-packages/
+
+udhcpc/microninja.script etc/udhcpc
+
+ifplugd/microninja-ifplugd etc/ifplugd/action.d
+
+bash/logging.sh usr/share/microninja-toolset/
+bash/logging_py.sh usr/share/microninja-toolset/
+
+microninja-keys-pressed/microninja-keys-pressed /usr/bin
+
+microninja-splash/microninja-splash /usr/bin
+microninja-splash/microninja-get-start-time /usr/bin
+
+share/microninja-launcher/conf usr/share/microninja-toolset/microninja-launcher/
+microninja-launcher/microninja-launcher usr/bin/
+microninja-launcher/microninja-kill-ns usr/bin/
+
+po/it/microninja-toolset.mo /usr/share/locale/microninja/microninja-toolset/it/LC_MESSAGES/
+
+

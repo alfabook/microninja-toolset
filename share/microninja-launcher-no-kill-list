@@ -1,0 +1,14 @@
+microninja-launcher
+dbus-daemon
+dbus-launch
+kdesk
+lxsession
+openbox
+ssh-agent
+lxpanel
+menu-cached
+python /usr/bin/microninja-feedback-widget
+python /usr/bin/microninja-tracker-ctl
+/usr/bin/xbindkeys
+x11vnc
+lxterminal
